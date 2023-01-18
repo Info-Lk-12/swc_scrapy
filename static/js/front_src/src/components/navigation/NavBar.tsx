@@ -21,10 +21,6 @@ function NavBar(props: NavBarProps){
                             variant="scrollable"
                         >
                             <Tab value={0} label="Overview" />
-                            <Tab value={1} label="Tasks" />
-                            <Tab value={2} label="Services" />
-                            <Tab value={3} label="Commands & Actions" />
-                            <Tab value={4} label="Settings" />
                         </Tabs>
                     </Box>
                 </AppBar>
