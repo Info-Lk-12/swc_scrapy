@@ -1,0 +1,6 @@
+flask
+requests
+beautifulsoup4
+SQLAlchemy
+flask_sqlalchemy==2.5.1
+flask_socketio

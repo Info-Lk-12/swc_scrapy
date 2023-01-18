@@ -1,0 +1,32 @@
+:root{
+    height: 100%;
+    background-color: var(--bs-body-bg);
+}
+:root[bg="img-1"]{
+    background: url(/static/img/bg/bg_01.svg) no-repeat center center fixed;
+}
+#root{
+    min-height: 100vh;
+}
+
+.card{
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.card:hover{
+    transform: scale(1.01);
+}
+.card:has(> .card-body):hover{
+    transform: scale(1.05);
+}
+.card img{
+    object-fit: cover;
+}
+
+
+.spinner-middle:has(.spinner-border){
+    margin-top: calc(50vh - 1.5rem - 64px);
+}
+.swc-loader-middle:has(.swc-loader){
+    margin-top: calc(50vh - 4rem - 64px);
+}

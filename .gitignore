@@ -1,0 +1,4 @@
+.idea
+venv/
+static/js/bundle
+__pycache__

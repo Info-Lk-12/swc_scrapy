@@ -1,0 +1,53 @@
+<footer class="font-small pt-4 bg-dark">
+    <div class="text-center text-md-start">
+        <div class="row m-0">
+            <div class="col-md-3">
+                <h5 class="text-uppercase">Software City</h5>
+                <div>Made by the Software City Team with <a class="no-link" href="https://en.wikipedia.org/wiki/Love" target="_blank">❤</a></div>
+                <div class="d-flex">
+                    <a class="me-3" href="/resources">Project Resources</a>
+                    {% if not session.get("logged_in") %}
+                        <a href="/login">Admin Login</a>
+                    {% else %}
+                        <a href="/logout">Logout</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-uppercase">Links</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://software-city.org/" target="_blank">Home</a>
+                    </li>
+                    <li>
+                        <a href="https://interface.software-city.org/" target="_blank">Interface</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-uppercase">Media</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://www.youtube.com/channel/UCAYthV25TGDLKxncrr9Nc7w" target="_blank">YouTube</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/Davis-Software" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5 class="text-uppercase">Legal</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://software-city.org/impress">Impress</a>
+                    </li>
+                    <li>
+                        <a href="https://software-city.org/privacy-policy">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-1">© 2018-<span class="js-year"></span>
+        Software City
+    </div>
+</footer>
