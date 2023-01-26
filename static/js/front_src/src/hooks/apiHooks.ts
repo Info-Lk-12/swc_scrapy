@@ -50,4 +50,17 @@ function useRequestBaseAPI(
     return [loading, global[target] || defaultData, makeRequest];
 }
 
-export {};
+function useScrapeJobsAPI(job_uuid?: string){
+    if (!!job_uuid){
+        return useRequestBaseAPI(
+            `scrape_job_${job_uuid.replace("-", "")}`,
+            `/api/scrape_job/${job_uuid}`,
+            [],
+            true,
+            "GET"
+        )
+    }
+    return useRequestBaseAPI("scrape_jobs", "/api/scrape_jobs",  [], false, "GET")
+}
+
+export {useScrapeJobsAPI};

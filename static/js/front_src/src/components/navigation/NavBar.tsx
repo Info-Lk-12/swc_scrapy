@@ -21,6 +21,9 @@ function NavBar(props: NavBarProps){
                             variant="scrollable"
                         >
                             <Tab value={0} label="Overview" />
+                            <Tab value={1} label="Scrapes" />
+                            <Tab value={2} label="Scrape Jobs" />
+                            <Tab value={3} label="Settings" />
                         </Tabs>
                     </Box>
                 </AppBar>

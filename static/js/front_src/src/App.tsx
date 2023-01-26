@@ -4,12 +4,17 @@ import defaultTheme from "./themes/defaultTheme";
 import NavBar from "./components/navigation/NavBar";
 
 import usePage from "./hooks/pageHook";
+import OverviewPage from "./pages/OverviewPage";
+import ScrapeJobsPage from "./pages/ScrapeJobsPage";
 
 
 function getPage(page: number){
     switch (page){
+        case 0:
         default:
-            return null
+            return <OverviewPage />
+        case 2:
+            return <ScrapeJobsPage />
     }
 }
 
