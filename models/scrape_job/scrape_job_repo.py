@@ -34,5 +34,7 @@ def get_scrape_job(uuid: str):
     return ScrapeJobModel.query.filter_by(uuid=uuid).first()
 
 
-def get_scrape_jobs():
-    return ScrapeJobModel.query.all()
+def get_scrape_jobs(uuids: list[str] = None):
+    if uuids is None:
+        return ScrapeJobModel.query.all()
+    return ScrapeJobModel.query.filter(ScrapeJobModel.uuid.in_(uuids)).all()
