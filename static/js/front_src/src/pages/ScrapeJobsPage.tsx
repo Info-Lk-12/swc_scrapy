@@ -22,6 +22,7 @@ import {
     TextField
 } from "@mui/material";
 import KeyValueTableEdit from "../components/KeyValueTableEdit";
+import ScrapeJobSearchPatternTable from "../components/ScrapeJobSearchPatternTable";
 
 
 const columns: GridColDef[] = [
@@ -46,7 +47,7 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
     const [jobName, setJobName] = React.useState<string>(scrapeJob?.name ?? "")
     const [jobUrl, setJobUrl] = React.useState<string>(scrapeJob?.url ?? "")
     const [jobMethod, setJobMethod] = React.useState<ScrapeJobType["request_method"]>(scrapeJob?.request_method ?? "GET")
-    const [jobHeaders, setJobHeaders] = React.useState<string[]>(scrapeJob?.request_headers ?? [])
+    const [jobHeaders, setJobHeaders] = React.useState<string[]>(scrapeJob?.request_headers ?? ["Accept: */*"])
     const [jobBody, setJobBody] = React.useState<RequestBodyType>(scrapeJob?.request_body ?? {})
     const [jobParams, setJobParams] = React.useState<RequestParamsType>(scrapeJob?.request_params ?? {})
     const [jobSearchPatterns, setJobSearchPatterns] = React.useState<RequestPatternType[]>(scrapeJob?.search_patterns ?? [])
@@ -55,7 +56,7 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
         setJobName(scrapeJob?.name || "")
         setJobUrl(scrapeJob?.url || "")
         setJobMethod(scrapeJob?.request_method || "GET")
-        setJobHeaders(scrapeJob?.request_headers || [])
+        setJobHeaders(scrapeJob?.request_headers || ["Accept: */*"])
         setJobBody(scrapeJob?.request_body || {})
         setJobParams(scrapeJob?.request_params || {})
         setJobSearchPatterns(scrapeJob?.search_patterns || [])
@@ -74,7 +75,7 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
             search_patterns: jobSearchPatterns
         }
 
-        let url = scrapeJob ? `/api/scrape_jobs/${scrapeJob.id}` : "/api/scrape_jobs"
+        let url = scrapeJob ? `/api/scrape_job/${scrapeJob.uuid}` : "/api/scrape_jobs"
         let form = new FormData()
         Object.keys(data).forEach(key => {
             form.append(key, JSON.stringify(data[key]))
@@ -129,7 +130,7 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
                         id="job-method"
                         value={jobMethod}
                         onChange={handleJobMethodChange}
-                        label="Project Status"
+                        label="Request method"
                     >
                         {jobMethods.map((option, index) => (
                             <MenuItem key={index} value={option} sx={{background: "error"}}>
@@ -155,17 +156,18 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
                         <KeyValueTableEdit object={jobBody} onChange={setJobBody} label="Request Body" />
                     </div>
                 </div>
-            </Container>
+                <ScrapeJobSearchPatternTable object={jobSearchPatterns} onChange={setJobSearchPatterns} />
 
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSave}
-                className="mt-3 mb-1"
-                fullWidth
-            >
-                Save
-            </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSave}
+                    className="mt-5 mb-1"
+                    fullWidth
+                >
+                    Save
+                </Button>
+            </Container>
         </>
     )
 }
