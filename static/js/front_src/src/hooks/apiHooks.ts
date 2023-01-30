@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import ScrapeJobType from "../types/ScrapeJobType";
 
 declare global {
     var caching: {[key: string]: number}
@@ -50,7 +51,7 @@ function useRequestBaseAPI(
     return [loading, global[target] || defaultData, makeRequest];
 }
 
-function useScrapeJobsAPI(job_uuid?: string){
+function useScrapeJobsAPI(job_uuid?: string): [boolean, ScrapeJobType[], () => void] {
     if (!!job_uuid){
         return useRequestBaseAPI(
             `scrape_job_${job_uuid.replace("-", "")}`,

@@ -6,11 +6,13 @@ import {gatherSubProps} from "../utils/propUtils";
 interface SwcFabContainerProps {
     children: React.ReactNode | React.ReactNode[]
     flexDirection?: "row" | "column"
+    bottom?: number
+    right?: number
 }
 function SwcFabContainer(props: SwcFabContainerProps) {
     const style = {
-        bottom: 16,
-        right: 16,
+        bottom: props.bottom || 16,
+        right: props.right || 16,
         display: "flex",
         flexDirection: props.flexDirection || "row"
     }

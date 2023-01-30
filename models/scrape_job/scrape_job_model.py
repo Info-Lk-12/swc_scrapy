@@ -57,3 +57,18 @@ class ScrapeJobModel(BaseModel):
         if self.request_headers is None:
             return None
         return json.loads(self.request_headers)
+
+    @property
+    def formatted(self):
+        return {
+            "id": self.id,
+            "uuid": self.uuid,
+            "name": self.name,
+            "url": self.url,
+            "request_method": self.request_method,
+            "request_params": self.request_params_dict,
+            "request_body": self.request_body_dict,
+            "request_headers": self.request_headers_list,
+            "search_patterns": self.search_patterns_list,
+            "created_at": self.created_at,
+        }
