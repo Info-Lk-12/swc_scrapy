@@ -5,7 +5,7 @@ from flask import request
 
 
 @app.route("/api/scrape_jobs", methods=["GET", "POST"])
-@app.route("/api/scrape_job/<uuid:string>", methods=["GET", "PUT"])
+@app.route("/api/scrape_job/<string:uuid>", methods=["GET", "PUT"])
 def scrape_job_api_route(uuid=None):
     if request.method in ["POST", "PUT"]:
         if uuid is None:

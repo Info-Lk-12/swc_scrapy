@@ -140,12 +140,10 @@ function ScrapeJobSearchPatternTable(props: ScrapeJobSearchPatternTableProps){
                                 </IconButton>
                             }
                         >
-                            <ListItem>
-                                <ListItemText className="w-25" primary={pattern.name} />
-                                <ListItemText className="w-25" primary={pattern.find} />
-                                <ListItemText className="w-25" primary={pattern.regex || "*"} />
-                                <ListItemText className="w-25" primary={pattern.type || "generic"} />
-                            </ListItem>
+                            <span className="w-25">{pattern.name}</span>
+                            <span className="w-25">{pattern.find}</span>
+                            <span className="w-25">{pattern.regex || "*"}</span>
+                            <span className="w-25">{pattern.type || "generic"}</span>
                         </ListItem>
                     </Collapse>
                 ))}

@@ -24,6 +24,8 @@ def update_scrape_job(uuid: str, name: str = None, url: str = None, request_meth
         job_model.request_headers = request_headers
     job_model.commit()
 
+    return job_model
+
 
 def delete_scrape_job(uuid: str):
     job_model = ScrapeJobModel.query.filter_by(uuid=uuid).first()

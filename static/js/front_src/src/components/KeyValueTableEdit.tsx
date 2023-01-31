@@ -82,10 +82,8 @@ function KeyValueTableEdit(props: KeyValueTableEditProps){
                                 </IconButton>
                             }
                         >
-                            <ListItem>
-                                <ListItemText className="w-50" primary={key} />
-                                <ListItemText className="w-50" primary={props.object[key]} />
-                            </ListItem>
+                            <span className="w-50">{key}</span>
+                            <span className="w-50">{props.object[key]}</span>
                         </ListItem>
                     </Collapse>
                 ))}
