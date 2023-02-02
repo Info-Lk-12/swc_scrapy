@@ -2,7 +2,7 @@ from models.scrape_job import ScrapeJobModel
 
 
 def create_scrape_job(*args, **kwargs):
-    return ScrapeJobModel.create(*args, **kwargs)
+    return ScrapeJobModel.create_from_web(*args, **kwargs)
 
 
 def update_scrape_job(uuid: str, name: str = None, url: str = None, request_method: str = None, search_patterns: dict = None,

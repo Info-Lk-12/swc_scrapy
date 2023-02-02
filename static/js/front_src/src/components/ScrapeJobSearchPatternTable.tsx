@@ -119,6 +119,7 @@ function ScrapeJobSearchPatternTable(props: ScrapeJobSearchPatternTableProps){
                             setNewType("")
                         }}
                         className="ml-1 mt-2"
+                        variant="contained"
                     >Add</Button>
                 }
             />

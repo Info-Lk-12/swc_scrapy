@@ -11,7 +11,7 @@ import ScrapeJobType, {
 import SwcModal from "../components/SwcModal";
 import {SwcFab, SwcFabContainer} from "../components/SwcFab";
 import {
-    Box, Button,
+    Box, Button, ButtonGroup,
     Container, Fade,
     FormControl,
     InputLabel,
@@ -91,6 +91,17 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
                 update()
             })
     }
+    function handleDelete(){
+        if (!scrapeJob) return
+        fetch(`/api/scrape_job/${scrapeJob.uuid}`, {
+            method: "DELETE"
+        })
+            .then(res => {
+                if (!res.ok) return
+                onHide()
+                update()
+            })
+    }
 
     return (
         <>
@@ -155,15 +166,31 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
                 </div>
                 <ScrapeJobSearchPatternTable object={jobSearchPatterns} onChange={setJobSearchPatterns} />
 
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSave}
-                    className="mt-5 mb-1"
-                    fullWidth
+                <ButtonGroup
+                    className="mt-5 mb-1 d-flex justify-content-end"
                 >
-                    Save
-                </Button>
+                    {scrapeJob && (
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
+                    )}
+                    <Button
+                        variant="outlined"
+                        color="success"
+                        onClick={handleSave}
+                        disabled={
+                            jobName === "" ||
+                            jobUrl === "" ||
+                            jobSearchPatterns.length === 0
+                        }
+                    >
+                        Save
+                    </Button>
+                </ButtonGroup>
             </Container>
         </>
     )
@@ -211,7 +238,7 @@ function ScrapeJobsPage(){
                     autoPageSize
                     loading={loading}
                     onCellDoubleClick={(params) => {
-                        setSelected(params.tabIndex)
+                        setSelected(scrapeJobs.findIndex(job => job.uuid === params.row.uuid))
                         setEditModalOpen(true)
                     }}
                 />

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, TEXT
 from models.base_model import BaseModel
+from datetime import datetime
 from uuid import uuid4
 import json
 
@@ -33,8 +34,15 @@ class ScrapeJobModel(BaseModel):
         job_model.request_params = json.dumps(request_params)
         job_model.request_body = json.dumps(request_body)
         job_model.request_headers = json.dumps(request_headers)
-        job_model.commit()
+        job_model.created_at = datetime.now()
+        job_model.add()
         return job_model
+
+    @classmethod
+    def create_from_web(cls, name, url, request_method, search_patterns: str, request_params: str = None,
+                        request_body: str = None, request_headers: str = None):
+        return cls.create(name, url, request_method, json.loads(search_patterns), json.loads(request_params),
+                          json.loads(request_body), json.loads(request_headers))
 
     @property
     def search_patterns_list(self) -> list[dict]:

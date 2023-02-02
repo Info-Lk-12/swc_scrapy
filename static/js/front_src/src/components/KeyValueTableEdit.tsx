@@ -54,6 +54,7 @@ function KeyValueTableEdit(props: KeyValueTableEditProps){
                 onValueChange={setNewValue}
                 additions={
                     <Button
+                        variant={"contained"}
                         onClick={() => {
                             if(newKey === "" || newValue === "") return
                             props.onChange({...props.object, [newKey]: newValue})
