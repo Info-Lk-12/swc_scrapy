@@ -30,7 +30,8 @@ class ScrapeJob:
         match self.scrape_job.request_method:
             case "GET":
                 self.response = requests.get(self.scrape_job.url, params=self.scrape_job.request_params_dict,
-                                             headers=self.scrape_job.request_headers_list)
+                                             #headers=self.scrape_job.request_headers_list)
+                                             headers=None)
             case "POST":
                 self.response = requests.post(self.scrape_job.url, params=self.scrape_job.request_params_dict,
                                               data=self.scrape_job.request_body_dict, headers=self.scrape_job.request_headers_list)

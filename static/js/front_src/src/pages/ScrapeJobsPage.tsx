@@ -69,27 +69,24 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
             name: jobName,
             url: jobUrl,
             request_method: jobMethod,
-            request_headers: jobHeaders,
-            request_body: jobBody,
-            request_params: jobParams,
-            search_patterns: jobSearchPatterns
+            request_headers: JSON.stringify(jobHeaders),
+            request_body: JSON.stringify(jobBody),
+            request_params: JSON.stringify(jobParams),
+            search_patterns: JSON.stringify(jobSearchPatterns)
         }
 
         let url = scrapeJob ? `/api/scrape_job/${scrapeJob.uuid}` : "/api/scrape_jobs"
         let form = new FormData()
         Object.keys(data).forEach(key => {
-            form.append(key, JSON.stringify(data[key]))
+            form.append(key, data[key])
         })
 
         fetch(url, {
             method: scrapeJob ? "PUT" : "POST",
             body: form
         })
-            .then(res => res.json())
-            .then(response => {
-                return response.json()
-            })
-            .then(() => {
+            .then(res => {
+                if (!res.ok) return
                 onHide()
                 update()
             })
