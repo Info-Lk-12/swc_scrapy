@@ -13,7 +13,7 @@ import React from "react";
 import {TransitionGroup} from "react-transition-group";
 import {RequestPatternType} from "../types/ScrapeJobType";
 
-const availablePatternTypes = [undefined, "text", "number", "attribute", "attribute_number", "attribute_text", "attribute_url", "url", "html", "json", "json_array", "json_object", "json_number", "json_text", "json_url", "json_html", "json_attribute", "json_attribute_number", "json_attribute_text", "json_attribute_url"]
+const availablePatternTypes = [undefined, "text", "number", "attributes", "json"]
 
 interface SearchPatternFormProps {
     name: string

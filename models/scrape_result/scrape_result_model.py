@@ -30,5 +30,5 @@ class ScrapeResultModel(BaseModel):
     @classmethod
     def create(cls, scrape_job: ScrapeJobModel, status_code, data):
         scrape_result = cls(scrape_job.uuid, scrape_job.name, scrape_job.url, status_code, data)
-        scrape_result.commit()
+        scrape_result.add()
         return scrape_result
