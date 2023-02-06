@@ -12,6 +12,10 @@ async def run_scrape_for(scrape_job: ScrapeJobModel, callback: callable = None) 
     return result
 
 
-def run_scrape_for_jobs(scrape_jobs: list[ScrapeJobModel], callback: callable = None):
+async def run_scrape_for_jobs(scrape_jobs: list[ScrapeJobModel], callback: callable = None):
     tasks = [run_scrape_for(job, callback) for job in scrape_jobs]
-    return asyncio.gather(*tasks)
+    return await asyncio.gather(*tasks)
+
+
+def run_scrape_for_jobs_sync(scrape_jobs: list[ScrapeJobModel], callback: callable = None):
+    return asyncio.run(run_scrape_for_jobs(scrape_jobs, callback))

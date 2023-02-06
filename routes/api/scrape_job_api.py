@@ -1,5 +1,8 @@
+import json
+
 from __init__ import app
 from models.scrape_job import get_scrape_job, get_scrape_jobs, create_scrape_job, update_scrape_job, delete_scrape_job
+from scraper import run_scrape_for_jobs_sync
 
 from flask import request, make_response
 from utils.request_codes import RequestCode
@@ -20,3 +23,11 @@ def scrape_job_api_route(uuid=None):
     if uuid is None:
         return [scrape_job.formatted for scrape_job in get_scrape_jobs()]
     return get_scrape_job(uuid).formatted
+
+
+@app.route("/api/scrape_jobs/run", methods=["POST"])
+def run_scrape_jobs_api_route():
+    jobs = request.form.get("jobs")
+    scrape_jobs = [get_scrape_job(uuid) for uuid in json.loads(jobs)]
+    run_scrape_for_jobs_sync(scrape_jobs)
+    return "done"

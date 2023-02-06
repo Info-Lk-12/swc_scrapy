@@ -1,14 +1,13 @@
 import React, {useEffect} from "react";
 import PageBase from "./PageBase";
 import {useScrapeJobsAPI} from "../hooks/apiHooks";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridRowId, GridSelectionModel} from "@mui/x-data-grid";
 import ScrapeJobType, {
     jobMethods,
     RequestBodyType,
     RequestParamsType,
     RequestPatternType
 } from "../types/ScrapeJobType";
-import SwcModal from "../components/SwcModal";
 import {SwcFab, SwcFabContainer} from "../components/SwcFab";
 import {
     Box, Button, ButtonGroup,
@@ -27,7 +26,7 @@ import ScrapeJobSearchPatternTable from "../components/ScrapeJobSearchPatternTab
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID' },
-  { field: 'name', headerName: 'Name' },
+  { field: 'name', headerName: 'Name', width: 200 },
   { field: 'url', headerName: 'URL', flex: 1 },
   { field: 'request_method', headerName: 'Method' }
 ]
@@ -227,6 +226,7 @@ function EditModal({show, onHide, scrapeJob, update}: {show: boolean, onHide: ()
 function ScrapeJobsPage(){
     const [loading, scrapeJobs, update] = useScrapeJobsAPI()
     const [selected, setSelected] = React.useState<number>(-1)
+    const [checked, setChecked] = React.useState<GridSelectionModel>([])
     const [editModalOpen, setEditModalOpen] = React.useState(false)
 
     return (
@@ -241,17 +241,40 @@ function ScrapeJobsPage(){
                         setSelected(scrapeJobs.findIndex(job => job.uuid === params.row.uuid))
                         setEditModalOpen(true)
                     }}
+                    checkboxSelection
+                    keepNonExistentRowsSelected
+                    disableSelectionOnClick
+                    selectionModel={checked}
+                    onSelectionModelChange={(newSelection) => {
+                        setChecked(newSelection)
+                    }}
                 />
             </div>
 
-            <SwcFabContainer bottom={64}>
+            <SwcFabContainer bottom={64} flexDirection="column">
+                {checked.length > 0 && (
+                    <SwcFab
+                        icon="play_arrow"
+                        onClick={() => {
+                            let form = new FormData()
+                            form.append("jobs", JSON.stringify(
+                                checked.map((gridRowId: GridRowId) => scrapeJobs.filter(job => job.id === gridRowId)[0].uuid)
+                            ))
+                            fetch("/api/scrape_jobs/run", {
+                                method: "POST",
+                                body: form
+                            })
+                        }}
+                        color="success"
+                    />
+                )}
                 <SwcFab
-                    icon={"add"}
+                    icon="add"
                     onClick={() => {
                         setSelected(-1)
                         setEditModalOpen(true)
                     }}
-                    color={"primary"}
+                    color="primary"
                 />
             </SwcFabContainer>
             <EditModal
