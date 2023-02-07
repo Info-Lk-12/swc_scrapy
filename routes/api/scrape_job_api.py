@@ -1,6 +1,6 @@
 import json
 
-from __init__ import app
+from __init__ import app, socket
 from models.scrape_job import get_scrape_job, get_scrape_jobs, create_scrape_job, update_scrape_job, delete_scrape_job
 from scraper import run_scrape_for_jobs_sync
 
@@ -29,5 +29,5 @@ def scrape_job_api_route(uuid=None):
 def run_scrape_jobs_api_route():
     jobs = request.form.get("jobs")
     scrape_jobs = [get_scrape_job(uuid) for uuid in json.loads(jobs)]
-    run_scrape_for_jobs_sync(scrape_jobs)
+    run_scrape_for_jobs_sync(scrape_jobs, lambda data: socket.emit("scrape_progress", data))
     return "done"

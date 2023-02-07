@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {ThemeProvider} from "@mui/material";
 import defaultTheme from "./themes/defaultTheme";
 import NavBar from "./components/navigation/NavBar";
@@ -6,6 +6,7 @@ import NavBar from "./components/navigation/NavBar";
 import usePage from "./hooks/pageHook";
 import OverviewPage from "./pages/OverviewPage";
 import ScrapeJobsPage from "./pages/ScrapeJobsPage";
+import {socket, SocketContext} from "./contexts/socket-context";
 
 
 function getPage(page: number){
@@ -22,11 +23,22 @@ function getPage(page: number){
 function App(){
     const [page, setPage] = usePage(0)
 
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log("Connected to server")
+        })
+        return () => {
+            socket.off("connect")
+        }
+    })
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <NavBar value={page} onChange={setPage} />
 
-            {getPage(page)}
+            <SocketContext.Provider value={socket}>
+                {getPage(page)}
+            </SocketContext.Provider>
         </ThemeProvider>
     )
 }

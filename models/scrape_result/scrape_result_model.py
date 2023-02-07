@@ -32,3 +32,7 @@ class ScrapeResultModel(BaseModel):
         scrape_result = cls(scrape_job.uuid, scrape_job.name, scrape_job.url, status_code, data)
         scrape_result.add()
         return scrape_result
+
+    @property
+    def data_json(self):
+        return json.loads(self.data) if self.data is not None else None

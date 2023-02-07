@@ -8,7 +8,7 @@ async def run_scrape_for(scrape_job: ScrapeJobModel, callback: callable = None) 
     scrape_job = ScrapeJob(scrape_job)
     result = scrape_job.execute()
     if callback:
-        callback(result)
+        callback(result.to_dict())
     return result
 
 

@@ -69,7 +69,7 @@ class ScrapeJob:
         for pattern in self.scrape_job.search_patterns_list:
             self.parsed_data[pattern["name"]] = []
             if pattern["regex"] in ["", None, "*"]:
-                self.parsed_data[pattern["name"]].append([self.__convert_type(tag, pattern["type"]) for tag in self.soup.select(pattern["find"])])
+                self.parsed_data[pattern["name"]] = [self.__convert_type(tag, pattern["type"]) for tag in self.soup.select(pattern["find"])]
             else:
                 self.parsed_data[pattern["name"]].append(
                     self.__convert_type(self.soup.select_one(pattern["find"]), pattern["type"])

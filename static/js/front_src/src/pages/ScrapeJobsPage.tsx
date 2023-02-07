@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import PageBase from "./PageBase";
 import {useScrapeJobsAPI} from "../hooks/apiHooks";
 import {DataGrid, GridColDef, GridRowId, GridSelectionModel} from "@mui/x-data-grid";
@@ -22,6 +22,10 @@ import {
 } from "@mui/material";
 import KeyValueTableEdit from "../components/KeyValueTableEdit";
 import ScrapeJobSearchPatternTable from "../components/ScrapeJobSearchPatternTable";
+import ScrapeResultType from "../types/ScrapeResultType";
+import {SocketContext} from "../contexts/socket-context";
+import SwcModal from "../components/SwcModal";
+import {SwcCenteredLoader} from "../components/PageLoader";
 
 
 const columns: GridColDef[] = [
@@ -224,10 +228,27 @@ function EditModal({show, onHide, scrapeJob, update}: {show: boolean, onHide: ()
 }
 
 function ScrapeJobsPage(){
+    const socket = useContext(SocketContext)
+
     const [loading, scrapeJobs, update] = useScrapeJobsAPI()
     const [selected, setSelected] = React.useState<number>(-1)
     const [checked, setChecked] = React.useState<GridSelectionModel>([])
     const [editModalOpen, setEditModalOpen] = React.useState(false)
+
+    const [scrapeProgressModalLoading, setScrapeProgressModalLoading] = React.useState(false)
+    const [scrapeProgressModalOpen, setScrapeProgressModalOpen] = React.useState(false)
+    const [scrapeProgressModalData, setScrapeProgressModalData] = React.useState<ScrapeResultType[]>([])
+
+    function handleProgress(data: ScrapeResultType){
+        setScrapeProgressModalData([...scrapeProgressModalData, data])
+    }
+
+    useEffect(() => {
+        socket.on("scrape_progress", handleProgress)
+        return () => {
+            socket.off("scrape_progress", handleProgress)
+        }
+    })
 
     return (
         <PageBase>
@@ -263,7 +284,12 @@ function ScrapeJobsPage(){
                             fetch("/api/scrape_jobs/run", {
                                 method: "POST",
                                 body: form
+                            }).then(() => {
+                                setScrapeProgressModalLoading(false)
                             })
+                            setScrapeProgressModalOpen(true)
+                            setScrapeProgressModalLoading(true)
+                            setScrapeProgressModalData([])
                         }}
                         color="success"
                     />
@@ -283,6 +309,15 @@ function ScrapeJobsPage(){
                 scrapeJob={scrapeJobs[selected]}
                 update={update}
             />
+            <SwcModal show={scrapeProgressModalOpen} onHide={() => setScrapeProgressModalOpen(false)}>
+                {scrapeProgressModalLoading && <SwcCenteredLoader />}
+                {scrapeProgressModalData.map((data, index) => (
+                    <div key={index}>
+                        <h3>{data.name}</h3>
+                        <pre>{JSON.stringify(data.data, null, 4)}</pre>
+                    </div>
+                ))}
+            </SwcModal>
         </PageBase>
     )
 }
