@@ -7,6 +7,7 @@ import usePage from "./hooks/pageHook";
 import OverviewPage from "./pages/OverviewPage";
 import ScrapeJobsPage from "./pages/ScrapeJobsPage";
 import {socket, SocketContext} from "./contexts/socket-context";
+import ScrapeResultsPage from "./pages/ScrapeResultsPage";
 
 
 function getPage(page: number){
@@ -14,6 +15,8 @@ function getPage(page: number){
         case 0:
         default:
             return <OverviewPage />
+        case 1:
+            return <ScrapeResultsPage />
         case 2:
             return <ScrapeJobsPage />
     }

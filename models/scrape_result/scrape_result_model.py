@@ -36,3 +36,16 @@ class ScrapeResultModel(BaseModel):
     @property
     def data_json(self):
         return json.loads(self.data) if self.data is not None else None
+
+    @property
+    def formatted(self):
+        return {
+            "id": self.id,
+            "uuid": self.uuid,
+            "scrape_job_uuid": self.scrape_job_uuid,
+            "name": self.name,
+            "url": self.url,
+            "status_code": self.status_code,
+            "data": self.data_json,
+            "created_at": self.created_at
+        }

@@ -64,4 +64,17 @@ function useScrapeJobsAPI(job_uuid?: string): [boolean, ScrapeJobType[], () => v
     return useRequestBaseAPI("scrape_jobs", "/api/scrape_jobs",  [], false, "GET")
 }
 
-export {useScrapeJobsAPI};
+function useScrapeResultsAPI(job_uuid?: string): [boolean, any[], () => void] {
+    if(!!job_uuid){
+        return useRequestBaseAPI(
+            `scrape_results_${job_uuid.replace("-", "")}`,
+            `/api/scrape_results/${job_uuid}`,
+            [],
+            true,
+            "GET"
+        )
+    }
+    return useRequestBaseAPI("scrape_results", "/api/scrape_results", [], false, "GET")
+}
+
+export {useScrapeJobsAPI, useScrapeResultsAPI};
