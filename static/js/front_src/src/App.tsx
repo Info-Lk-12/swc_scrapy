@@ -32,6 +32,7 @@ function App(){
         })
         return () => {
             socket.off("connect")
+            console.log("Disconnected from server")
         }
     })
 

@@ -199,9 +199,6 @@ function ModalContent({scrapeJob, onHide, update}: {scrapeJob: ScrapeJobType | n
     )
 }
 
-
-
-
 function EditModal({show, onHide, scrapeJob, update}: {show: boolean, onHide: () => void, scrapeJob: ScrapeJobType | null, update: () => void}){
     return (
         <Modal
@@ -237,7 +234,7 @@ function ScrapeJobsPage(){
 
     const [scrapeProgressModalLoading, setScrapeProgressModalLoading] = React.useState(false)
     const [scrapeProgressModalOpen, setScrapeProgressModalOpen] = React.useState(false)
-    const [scrapeProgressModalData, setScrapeProgressModalData] = React.useState<ScrapeResultType[]>([])
+    const [scrapeProgressModalData, setScrapeProgressModalData] = React.useState<any[]>([])
 
     function handleProgress(data: ScrapeResultType){
         setScrapeProgressModalData([...scrapeProgressModalData, data])
@@ -311,10 +308,16 @@ function ScrapeJobsPage(){
             />
             <SwcModal show={scrapeProgressModalOpen} onHide={() => setScrapeProgressModalOpen(false)}>
                 {scrapeProgressModalLoading && <SwcCenteredLoader />}
-                {scrapeProgressModalData.map((data, index) => (
+                {scrapeProgressModalData.map((scrapeResult, index) => (
                     <div key={index}>
-                        <h3>{data.name}</h3>
-                        <pre>{JSON.stringify(data.data, null, 4)}</pre>
+                        <h3>{scrapeResult.name}</h3>
+                        <ul>
+                            {Object.keys(JSON.parse(scrapeResult.data)).map((key, listIndex) => (
+                                <li key={listIndex}>
+                                    <b>{key}</b>: {JSON.parse(scrapeResult.data)[key].toString()}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 ))}
             </SwcModal>
