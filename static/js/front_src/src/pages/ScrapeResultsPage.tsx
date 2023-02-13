@@ -14,10 +14,6 @@ function ScrapeResultsPage(){
     const [loading, scrapeResults, update] = useScrapeResultsAPI()
     const [checked, setChecked] = React.useState<GridSelectionModel>([])
 
-    useEffect(() => {
-        update()
-    })
-
     return (
         <PageBase>
             <div style={{height: "calc(100vh - 48px)"}}>

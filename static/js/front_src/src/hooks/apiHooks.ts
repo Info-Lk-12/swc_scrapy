@@ -70,11 +70,11 @@ function useScrapeResultsAPI(job_uuid?: string): [boolean, any[], () => void] {
             `scrape_results_${job_uuid.replace("-", "")}`,
             `/api/scrape_results/${job_uuid}`,
             [],
-            true,
+            1000,
             "GET"
         )
     }
-    return useRequestBaseAPI("scrape_results", "/api/scrape_results", [], false, "GET")
+    return useRequestBaseAPI("scrape_results", "/api/scrape_results", [], 1000, "GET")
 }
 
 export {useScrapeJobsAPI, useScrapeResultsAPI};
