@@ -1,0 +1,35 @@
+{% extends "bases/main_base.html" %}
+
+{% block body %}
+    <div class="bg-dark">
+        <ul>
+            <li>Id: <code>{{ result.id }}</code></li>
+            <li>UUID: <code>{{ result.uuid }}</code></li>
+            <li>Scrape Job UUID: <code>{{ result.scrape_job_uuid }}</code></li>
+            <li>Scrape Job Name: <code>{{ result.name }}</code></li>
+            <li>Scrape URL: <code>{{ result.url }}</code></li>
+            <li>Scrape Status Code: <code>{{ result.status_code }}</code></li>
+            <li>Scraped at: <code>{{ result.created_at }}</code></li>
+        </ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Real Price</th>
+                    <th>Discount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, name in py.enum(result.data_json["name"]) %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ result.data_json["price"][i] }}</td>
+                        <td>{{ result.data_json["real_price"][i] }}</td>
+                        <td>{{ 1 - py.round((result.data_json["price"][i] or 0) / (result.data_json["real_price"][i] or 1)) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

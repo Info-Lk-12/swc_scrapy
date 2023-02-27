@@ -12,7 +12,8 @@ def processor():
             "zip": zip,
             "enum": enumerate,
             "round": round,
-            "datetime": datetime
+            "datetime": datetime,
+            "dir": dir
         }
     )
 

@@ -14,6 +14,10 @@ def get_scrape_result(uuid: str):
     return ScrapeResultModel.query.filter_by(uuid=uuid).first()
 
 
+def get_scrape_result_by_id(id_: int):
+    return ScrapeResultModel.query.filter_by(id=id_).first()
+
+
 def get_scrape_results(uuids: list[str] = None):
     if uuids is None:
         return ScrapeResultModel.query.all()
